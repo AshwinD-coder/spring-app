@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: ecom
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecom
+    username: postgres
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
