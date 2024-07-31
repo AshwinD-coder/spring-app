@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.ecom.platform.usecase.UseCaseResponse;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @AllArgsConstructor

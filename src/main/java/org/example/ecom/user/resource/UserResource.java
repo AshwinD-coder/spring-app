@@ -1,5 +1,8 @@
 package org.example.ecom.user.resource;
 
+import jakarta.validation.Valid;
+import org.example.ecom.platform.exception.AppException;
+import org.example.ecom.platform.exception.AppExceptionType;
 import org.example.ecom.platform.restutils.RestResponse;
 import org.example.ecom.user.usecase.login.UserLoginRequest;
 import org.example.ecom.user.usecase.login.UserLoginUseCaseImpl;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/user")
@@ -25,21 +29,19 @@ public class UserResource {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> registerUser(@RequestBody UserRegisterRequest userRegisterRequest) {
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody UserRegisterRequest userRegisterRequest) {
         var response = this.userRegisterUseCase.execute(userRegisterRequest);
-        if (response.isPresent()) {
+        if (response.isPresent())
             return ResponseEntity.ok(RestResponse.success(response.get()));
-        } else {
-            return ResponseEntity.badRequest().body(RestResponse.error("Response not found"));
-        }
+        else
+            throw new AppException(AppExceptionType.RESPONSE_NOT_FOUND);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
+    public ResponseEntity<Object> loginUser(@Valid @RequestBody UserLoginRequest userLoginRequest) {
         var response = this.userLoginUseCase.execute(userLoginRequest);
         if (response.isPresent()) {
             return ResponseEntity.ok(RestResponse.success(response.get()));
-        } else throw new IllegalArgumentException("Response not found");
-
+        } else throw new AppException(AppExceptionType.RESPONSE_NOT_FOUND);
     }
 }
